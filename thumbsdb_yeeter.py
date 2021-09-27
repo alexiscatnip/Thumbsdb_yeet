@@ -9,14 +9,17 @@ from pathlib import Path
 import os
 
 def recursive_yeet(dir_path, dry_run):
-    for entry in os.scandir(dir_path):
-        if entry.is_dir():
-            recursive_yeet(entry.path, dry_run)
-        if ( entry.is_file() and (entry.name == "Thumbs.db") ):
-                if(dry_run):
-                    print_file_entry(entry)
-                else:
-                    yeet(entry)
+    try:
+        for entry in os.scandir(dir_path):
+            if entry.is_dir():
+                recursive_yeet(entry.path, dry_run)
+            if ( entry.is_file() and (entry.name == "Thumbs.db") ):
+                    if(dry_run):
+                        print_file_entry(entry)
+                    else:
+                        yeet(entry)
+    except:
+        return #catches access is denied
 
 def yeet(file):
     try:
@@ -38,7 +41,7 @@ if __name__ == '__main__':
     root_dir = Path(root_dir_str)
     if (not root_dir.exists()):
         raise RuntimeError("root folder not exist")
-    
+
     recursive_yeet(root_dir, True)
     print ("+++++++++++++++++++++++++")
     _in = input("do you wish to yeet the above files? y/n ")
